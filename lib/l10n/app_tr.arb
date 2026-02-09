@@ -21,5 +21,11 @@
     "statusInProgress": "Devam Ediyor",
     "filterActive": "Aktif İşler",
     "clientChat": "Müşteri Sohbeti",
-    "internalTeam": "İç Ekip"
+    "internalTeam": "İç Ekip",
+    "totalHours": "Toplam Süre",
+    "vsLastMonth": "geçen aya göre",
+    "needsAttention": "Dikkat gerekiyor",
+    "filter": "Filtrele",
+    "deadline": "Termin",
+    "agencyDeadline": "Ajans Termin"
 }

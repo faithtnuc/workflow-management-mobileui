@@ -76,4 +76,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get internalTeam => 'İç Ekip';
+
+  @override
+  String get totalHours => 'Toplam Süre';
+
+  @override
+  String get vsLastMonth => 'geçen aya göre';
+
+  @override
+  String get needsAttention => 'Dikkat gerekiyor';
+
+  @override
+  String get filter => 'Filtrele';
+
+  @override
+  String get deadline => 'Termin';
+
+  @override
+  String get agencyDeadline => 'Ajans Termin';
 }

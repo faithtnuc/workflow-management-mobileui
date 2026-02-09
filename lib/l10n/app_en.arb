@@ -21,5 +21,11 @@
     "statusInProgress": "In Progress",
     "filterActive": "Active Jobs",
     "clientChat": "Client Chat",
-    "internalTeam": "Internal Team"
+    "internalTeam": "Internal Team",
+    "totalHours": "Total Hours",
+    "vsLastMonth": "vs last month",
+    "needsAttention": "Needs attention",
+    "filter": "Filter",
+    "deadline": "Deadline",
+    "agencyDeadline": "Agency Deadline"
 }

@@ -235,6 +235,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Internal Team'**
   String get internalTeam;
+
+  /// No description provided for @totalHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Hours'**
+  String get totalHours;
+
+  /// No description provided for @vsLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'vs last month'**
+  String get vsLastMonth;
+
+  /// No description provided for @needsAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get needsAttention;
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// No description provided for @deadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline'**
+  String get deadline;
+
+  /// No description provided for @agencyDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency Deadline'**
+  String get agencyDeadline;
 }
 
 class _AppLocalizationsDelegate

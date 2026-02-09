@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../data/mock_db.dart';
+import '../l10n/app_localizations.dart';
 import '../screens/job_detail_screen.dart';
 import '../theme/app_theme.dart';
 
@@ -42,6 +43,24 @@ class JobCardWidget extends StatelessWidget {
     }
   }
 
+  String _getLocalizedStatus(BuildContext context, String status) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (status) {
+      case 'Completed':
+        return l10n.statusCompleted;
+      case 'Review':
+        return l10n.statusReview;
+      case 'Waiting':
+        return l10n.statusWaiting;
+      case 'Urgent':
+        return l10n.statusUrgent;
+      case 'In Progress':
+        return l10n.statusInProgress;
+      default:
+        return status;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final statusColor = _getStatusColor(job.status);
@@ -61,79 +80,41 @@ class JobCardWidget extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: 8), // Reduced margin
+        padding: const EdgeInsets.all(12), // Reduced padding
         decoration: BoxDecoration(
           color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppTheme.border),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.02),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: statusBgColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        job.status == 'Urgent'
-                            ? LucideIcons.alertCircle
-                            : LucideIcons.clock,
-                        size: 12,
-                        color: statusColor,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        job.status,
-                        style: TextStyle(
-                          color: statusColor,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  job.deadline,
-                  style: const TextStyle(
-                    color: AppTheme.textSecondary,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+            // Top Row: Client Logo + Title + Status
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 16,
+                  radius: 14, // Smaller avatar
                   backgroundColor: const Color(0xFF1E293B),
                   child: Padding(
                     padding: const EdgeInsets.all(1.0),
                     child: ClipOval(child: SvgPicture.asset(client.logo)),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        // Use a mapping or helper for localized titles if needed, for now using key nicely formatted
                         job.titleKey
                             .replaceAll('job', '')
                             .replaceAllMapped(
@@ -144,70 +125,76 @@ class JobCardWidget extends StatelessWidget {
                         style: const TextStyle(
                           color: AppTheme.textMain,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 13, // Smaller font
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
                       Text(
-                        '${client.name} • ${job.requester}',
+                        client.name,
                         style: const TextStyle(
                           color: AppTheme.textSecondary,
-                          fontSize: 12,
+                          fontSize: 11, // Smaller font
                         ),
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: statusBgColor,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    _getLocalizedStatus(context, job.status),
+                    style: TextStyle(
+                      color: statusColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 12),
-            Text(
-              job.description,
-              style: const TextStyle(
-                color: AppTheme.textSecondary,
-                fontSize: 12,
-                height: 1.5,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
+            // Bottom Row: Deadlines
             Row(
               children: [
-                const Icon(
-                  LucideIcons.messageSquare,
-                  size: 14,
+                Icon(
+                  LucideIcons.calendar,
+                  size: 12,
                   color: AppTheme.textSecondary,
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  '${job.messages} Client',
+                  '${AppLocalizations.of(context)!.deadline}: ${job.deadline}',
                   style: const TextStyle(
-                    fontSize: 11,
                     color: AppTheme.textSecondary,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Icon(
-                  LucideIcons.messageCircle,
-                  size: 14,
-                  color: Color(0xFFF97316),
-                ), // Orange
-                const SizedBox(width: 4),
-                Text(
-                  '${job.internalMessages} Internal',
-                  style: const TextStyle(
                     fontSize: 11,
-                    color: Color(0xFFF97316),
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 const Spacer(),
-                const Icon(
-                  LucideIcons.chevronRight,
-                  size: 16,
-                  color: AppTheme.textSecondary,
-                ),
+                if (job.internalDeadline.isNotEmpty) ...[
+                  Icon(
+                    LucideIcons.calendar, // Changed to Calendar icon
+                    size: 12,
+                    color: Colors.blue, // Changed color to Blue or Info
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '${AppLocalizations.of(context)!.agencyDeadline}: ${job.internalDeadline}',
+                    style: const TextStyle(
+                      color: Colors.blue, // Changed color to match icon
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ],
             ),
           ],

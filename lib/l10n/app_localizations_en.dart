@@ -76,4 +76,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get internalTeam => 'Internal Team';
+
+  @override
+  String get totalHours => 'Total Hours';
+
+  @override
+  String get vsLastMonth => 'vs last month';
+
+  @override
+  String get needsAttention => 'Needs attention';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get deadline => 'Deadline';
+
+  @override
+  String get agencyDeadline => 'Agency Deadline';
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../data/mock_db.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../widgets/job_card_widget.dart';
 
@@ -29,21 +31,87 @@ class DashboardScreen extends StatelessWidget {
               )
             : null,
         actions: [
-          IconButton(icon: const Icon(LucideIcons.bell), onPressed: () {}),
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Row(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      MockDb.user.name,
+                      style: const TextStyle(
+                        color: AppTheme.textMain,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      MockDb.user.role,
+                      style: const TextStyle(
+                        color: AppTheme.textSecondary,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 8),
+                CircleAvatar(
+                  radius: 18,
+                  backgroundColor: AppTheme.primary,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: ClipOval(
+                      child: SvgPicture.asset(
+                        MockDb.user.avatar,
+                        placeholderBuilder: (context) => Text(
+                          MockDb.user.name.substring(0, 1),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSummaryCards(),
+          _buildSummaryCards(context),
           const SizedBox(height: 24),
-          const Text(
-            'Recent Jobs',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.textMain,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.activeJobs,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.textMain,
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(LucideIcons.filter, size: 16),
+                label: Text(AppLocalizations.of(context)!.filter),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppTheme.textSecondary,
+                  backgroundColor: AppTheme.surface,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: const BorderSide(color: AppTheme.border),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           ...jobs.map((job) {
@@ -57,7 +125,8 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryCards() {
+  Widget _buildSummaryCards(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -65,47 +134,47 @@ class DashboardScreen extends StatelessWidget {
           SizedBox(
             width: 175,
             child: _buildCard(
-              title: 'Active Jobs',
+              title: l10n.activeJobs,
               value: '${MockDb.stats['activeJobs']}',
               icon: LucideIcons.briefcase,
               iconColor: Colors.indigo,
               trend: 'up',
-              trendLabel: 'vs last month',
+              trendLabel: l10n.vsLastMonth,
             ),
           ),
           const SizedBox(width: 16),
           SizedBox(
             width: 175,
             child: _buildCard(
-              title: 'Pending Reviews',
+              title: l10n.pendingReviews,
               value: '${MockDb.stats['pendingReviews']}',
               icon: LucideIcons.alertCircle,
               iconColor: Colors.orange,
-              subtext: 'Needs attention',
+              subtext: l10n.needsAttention,
             ),
           ),
           const SizedBox(width: 16),
           SizedBox(
             width: 175,
             child: _buildCard(
-              title: 'Completed',
+              title: l10n.completedMonth,
               value: '${MockDb.stats['completedMonth']}',
               icon: LucideIcons.checkCircle,
               iconColor: Colors.green,
               trend: 'up',
-              trendLabel: 'vs last month',
+              trendLabel: l10n.vsLastMonth,
             ),
           ),
           const SizedBox(width: 16),
           SizedBox(
             width: 175,
             child: _buildCard(
-              title: 'Total Hours',
+              title: l10n.totalHours,
               value: '${MockDb.stats['totalHours']}',
               icon: LucideIcons.clock,
               iconColor: Colors.blue,
               trend: 'down',
-              trendLabel: 'vs last month',
+              trendLabel: l10n.vsLastMonth,
             ),
           ),
         ],
