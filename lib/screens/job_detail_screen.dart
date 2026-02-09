@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../data/mock_db.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import 'chat_screen.dart';
 
@@ -11,6 +12,41 @@ class JobDetailScreen extends StatelessWidget {
   final Client client;
 
   const JobDetailScreen({super.key, required this.job, required this.client});
+
+  String _getLocalizedTitle(BuildContext context, String key) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (key) {
+      case 'jobQ3Marketing':
+        return l10n.jobQ3Marketing;
+      case 'jobHomepageRedesign':
+        return l10n.jobHomepageRedesign;
+      case 'jobNutritionalPDF':
+        return l10n.jobNutritionalPDF;
+      case 'jobSocialMedia':
+        return l10n.jobSocialMedia;
+      case 'jobSafetyVideo':
+        return l10n.jobSafetyVideo;
+      case 'jobSuitInterface':
+        return l10n.jobSuitInterface;
+      case 'jobMobileRefresh':
+        return l10n.jobMobileRefresh;
+      default:
+        return key
+            .replaceAll('job', '')
+            .replaceAllMapped(
+              RegExp(r'([A-Z])'),
+              (match) => ' ${match.group(0)}',
+            )
+            .trim();
+    }
+  }
+
+  String _getLocalizedDescription(BuildContext context) {
+    final isTr = Localizations.localeOf(context).languageCode == 'tr';
+    return (isTr && job.descriptionTR.isNotEmpty)
+        ? job.descriptionTR
+        : job.description;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +111,7 @@ class JobDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        job.titleKey
-                            .replaceAll('job', '')
-                            .replaceAllMapped(
-                              RegExp(r'([A-Z])'),
-                              (match) => ' ${match.group(0)}',
-                            )
-                            .trim(),
+                        _getLocalizedTitle(context, job.titleKey),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: AppTheme.textMain,
@@ -172,7 +202,7 @@ class JobDetailScreen extends StatelessWidget {
                 border: Border.all(color: AppTheme.border),
               ),
               child: Text(
-                job.description,
+                _getLocalizedDescription(context),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppTheme.textMain,
                   height: 1.5,

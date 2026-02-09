@@ -94,4 +94,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get agencyDeadline => 'Agency Deadline';
+
+  @override
+  String get jobQ3Marketing => 'Q3 Marketing Assets';
+
+  @override
+  String get jobHomepageRedesign => 'Homepage Redesign V2';
+
+  @override
+  String get jobNutritionalPDF => 'Nutritional PDF';
+
+  @override
+  String get jobSocialMedia => 'Social Media Campaign';
+
+  @override
+  String get jobSafetyVideo => 'Safety Protocols Video';
+
+  @override
+  String get jobSuitInterface => 'Suit Interface Mockups';
+
+  @override
+  String get jobMobileRefresh => 'Mobile App Refresh';
 }

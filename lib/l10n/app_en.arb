@@ -1,4 +1,5 @@
 {
+    "@@locale": "en",
     "dashboard": "Dashboard",
     "jobs": "Jobs",
     "timesheets": "Timesheets",
@@ -27,5 +28,12 @@
     "needsAttention": "Needs attention",
     "filter": "Filter",
     "deadline": "Deadline",
-    "agencyDeadline": "Agency Deadline"
+    "agencyDeadline": "Agency Deadline",
+    "jobQ3Marketing": "Q3 Marketing Assets",
+    "jobHomepageRedesign": "Homepage Redesign V2",
+    "jobNutritionalPDF": "Nutritional PDF",
+    "jobSocialMedia": "Social Media Campaign",
+    "jobSafetyVideo": "Safety Protocols Video",
+    "jobSuitInterface": "Suit Interface Mockups",
+    "jobMobileRefresh": "Mobile App Refresh"
 }

@@ -1,4 +1,5 @@
 {
+    "@@locale": "tr",
     "dashboard": "İşler",
     "jobs": "İş Ekle",
     "timesheets": "Kullanıcılar",
@@ -27,5 +28,12 @@
     "needsAttention": "Dikkat gerekiyor",
     "filter": "Filtrele",
     "deadline": "Termin",
-    "agencyDeadline": "Ajans Termin"
+    "agencyDeadline": "Ajans Termin",
+    "jobQ3Marketing": "Q3 Pazarlama Varlıkları",
+    "jobHomepageRedesign": "Anasayfa Yenileme V2",
+    "jobNutritionalPDF": "Beslenme Önizleme PDF",
+    "jobSocialMedia": "Sosyal Medya Kampanyası",
+    "jobSafetyVideo": "Güvenlik Protokolü Videosu",
+    "jobSuitInterface": "Suit Arayüz Mockup",
+    "jobMobileRefresh": "Mobil Uygulama Yenileme"
 }

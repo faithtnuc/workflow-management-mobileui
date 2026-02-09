@@ -271,6 +271,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Agency Deadline'**
   String get agencyDeadline;
+
+  /// No description provided for @jobQ3Marketing.
+  ///
+  /// In en, this message translates to:
+  /// **'Q3 Marketing Assets'**
+  String get jobQ3Marketing;
+
+  /// No description provided for @jobHomepageRedesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Homepage Redesign V2'**
+  String get jobHomepageRedesign;
+
+  /// No description provided for @jobNutritionalPDF.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutritional PDF'**
+  String get jobNutritionalPDF;
+
+  /// No description provided for @jobSocialMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Social Media Campaign'**
+  String get jobSocialMedia;
+
+  /// No description provided for @jobSafetyVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety Protocols Video'**
+  String get jobSafetyVideo;
+
+  /// No description provided for @jobSuitInterface.
+  ///
+  /// In en, this message translates to:
+  /// **'Suit Interface Mockups'**
+  String get jobSuitInterface;
+
+  /// No description provided for @jobMobileRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile App Refresh'**
+  String get jobMobileRefresh;
 }
 
 class _AppLocalizationsDelegate

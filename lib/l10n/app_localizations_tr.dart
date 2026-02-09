@@ -94,4 +94,25 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get agencyDeadline => 'Ajans Termin';
+
+  @override
+  String get jobQ3Marketing => 'Q3 Pazarlama Varlıkları';
+
+  @override
+  String get jobHomepageRedesign => 'Anasayfa Yenileme V2';
+
+  @override
+  String get jobNutritionalPDF => 'Beslenme Önizleme PDF';
+
+  @override
+  String get jobSocialMedia => 'Sosyal Medya Kampanyası';
+
+  @override
+  String get jobSafetyVideo => 'Güvenlik Protokolü Videosu';
+
+  @override
+  String get jobSuitInterface => 'Suit Arayüz Mockup';
+
+  @override
+  String get jobMobileRefresh => 'Mobil Uygulama Yenileme';
 }
