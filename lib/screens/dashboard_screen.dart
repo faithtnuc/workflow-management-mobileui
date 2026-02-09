@@ -58,30 +58,70 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _buildSummaryCards() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildCard(
-            'Active',
-            '${MockDb.stats['activeJobs']}',
-            Colors.blue,
-            LucideIcons.briefcase,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 175,
+            child: _buildCard(
+              title: 'Active Jobs',
+              value: '${MockDb.stats['activeJobs']}',
+              icon: LucideIcons.briefcase,
+              iconColor: Colors.indigo,
+              trend: 'up',
+              trendLabel: 'vs last month',
+            ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildCard(
-            'Review',
-            '${MockDb.stats['pendingReviews']}',
-            Colors.orange,
-            LucideIcons.eye,
+          const SizedBox(width: 16),
+          SizedBox(
+            width: 175,
+            child: _buildCard(
+              title: 'Pending Reviews',
+              value: '${MockDb.stats['pendingReviews']}',
+              icon: LucideIcons.alertCircle,
+              iconColor: Colors.orange,
+              subtext: 'Needs attention',
+            ),
           ),
-        ),
-      ],
+          const SizedBox(width: 16),
+          SizedBox(
+            width: 175,
+            child: _buildCard(
+              title: 'Completed',
+              value: '${MockDb.stats['completedMonth']}',
+              icon: LucideIcons.checkCircle,
+              iconColor: Colors.green,
+              trend: 'up',
+              trendLabel: 'vs last month',
+            ),
+          ),
+          const SizedBox(width: 16),
+          SizedBox(
+            width: 175,
+            child: _buildCard(
+              title: 'Total Hours',
+              value: '${MockDb.stats['totalHours']}',
+              icon: LucideIcons.clock,
+              iconColor: Colors.blue,
+              trend: 'down',
+              trendLabel: 'vs last month',
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildCard(String title, String value, Color color, IconData icon) {
+  Widget _buildCard({
+    required String title,
+    required String value,
+    required IconData icon,
+    required Color iconColor,
+    String? trend,
+    String? trendLabel,
+    String? subtext,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -101,7 +141,6 @@ class DashboardScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: color, size: 24),
               Text(
                 value,
                 style: const TextStyle(
@@ -110,17 +149,55 @@ class DashboardScreen extends StatelessWidget {
                   color: AppTheme.textMain,
                 ),
               ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: iconColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, color: iconColor, size: 20),
+              ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text(
             title,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: 13,
               color: AppTheme.textSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),
+          const SizedBox(height: 8),
+          if (trend != null)
+            Row(
+              children: [
+                Text(
+                  trend == 'up' ? '↑ 12%' : '↓ 2%',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: trend == 'up' ? Colors.green : Colors.red,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  trendLabel ?? '',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+              ],
+            )
+          else if (subtext != null)
+            Text(
+              subtext,
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppTheme.textSecondary,
+              ),
+            ),
         ],
       ),
     );
