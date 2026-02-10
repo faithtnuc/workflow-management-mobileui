@@ -75,131 +75,138 @@ class _MainScaffoldState extends State<MainScaffold> {
             width: 72,
             height: double.infinity,
             color: const Color(0xFF0F172A), // Slate 900
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                ...MockDb.clients.map((client) => _buildClientAvatar(client)),
-                const Spacer(),
-                _buildAddButton(),
-                const SizedBox(height: 16),
-              ],
+            child: SafeArea(
+              child: Column(
+                children: [
+                  const SizedBox(height: 16),
+                  ...MockDb.clients.map((client) => _buildClientAvatar(client)),
+                  const Spacer(),
+                  _buildAddButton(),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
           // Right Rail - Menu
           Expanded(
             child: Container(
               color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 24),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'FLUXBOARD',
-                          style: Theme.of(context).textTheme.labelSmall
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.textMain,
-                                letterSpacing: 1.2,
-                              ),
-                        ),
-                        Text(
-                          'Workflow Management',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: AppTheme.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Divider(),
-                  ),
-                  Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      children: [
-                        _buildDrawerItem(
-                          LucideIcons.briefcase,
-                          'Jobs',
-                          badge: '12',
-                        ),
-                        _buildDrawerItem(LucideIcons.users, 'Timesheets'),
-                        _buildDrawerItem(LucideIcons.users, 'Clients'),
-                        _buildDrawerItem(LucideIcons.lightbulb, 'Ideas'),
-                        _buildDrawerItem(LucideIcons.fileText, 'Reporting'),
-                        _buildDrawerItem(LucideIcons.creditCard, 'Finance'),
-                        _buildDrawerItem(LucideIcons.userCog, 'HR'),
-                        const Divider(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 8,
-                          ),
-                          child: Text(
-                            'WORKSPACES',
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'FLUXBOARD',
                             style: Theme.of(context).textTheme.labelSmall
                                 ?.copyWith(
-                                  color: AppTheme.textSecondary,
                                   fontWeight: FontWeight.bold,
+                                  color: AppTheme.textMain,
+                                  letterSpacing: 1.2,
                                 ),
                           ),
-                        ),
-                        _buildWorkspaceItem('Design Team', Colors.purpleAccent),
-                        _buildWorkspaceItem('Dev Squad', Colors.blueAccent),
-                        _buildWorkspaceItem('Marketing', Colors.pinkAccent),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  // Language Switcher
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Language',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppTheme.textMain,
+                          Text(
+                            'Workflow Management',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppTheme.textSecondary),
                           ),
-                        ),
-                        ValueListenableBuilder<Locale>(
-                          valueListenable: LanguageController.instance,
-                          builder: (context, locale, child) {
-                            return Row(
-                              children: [
-                                _buildLanguageOption(
-                                  'TR',
-                                  locale.languageCode == 'tr',
-                                ),
-                                const SizedBox(width: 8),
-                                _buildLanguageOption(
-                                  'EN',
-                                  locale.languageCode == 'en',
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 8,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Divider(),
                     ),
-                    child: _buildDrawerItem(LucideIcons.settings, 'Settings'),
-                  ),
-                ],
+                    Expanded(
+                      child: ListView(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        children: [
+                          _buildDrawerItem(
+                            LucideIcons.briefcase,
+                            'Jobs',
+                            badge: '12',
+                          ),
+                          _buildDrawerItem(LucideIcons.users, 'Timesheets'),
+                          _buildDrawerItem(LucideIcons.users, 'Clients'),
+                          _buildDrawerItem(LucideIcons.lightbulb, 'Ideas'),
+                          _buildDrawerItem(LucideIcons.fileText, 'Reporting'),
+                          _buildDrawerItem(LucideIcons.creditCard, 'Finance'),
+                          _buildDrawerItem(LucideIcons.userCog, 'HR'),
+                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 8,
+                            ),
+                            child: Text(
+                              'WORKSPACES',
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(
+                                    color: AppTheme.textSecondary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ),
+                          _buildWorkspaceItem(
+                            'Design Team',
+                            Colors.purpleAccent,
+                          ),
+                          _buildWorkspaceItem('Dev Squad', Colors.blueAccent),
+                          _buildWorkspaceItem('Marketing', Colors.pinkAccent),
+                        ],
+                      ),
+                    ),
+                    const Divider(),
+                    // Language Switcher
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Language',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppTheme.textMain,
+                            ),
+                          ),
+                          ValueListenableBuilder<Locale>(
+                            valueListenable: LanguageController.instance,
+                            builder: (context, locale, child) {
+                              return Row(
+                                children: [
+                                  _buildLanguageOption(
+                                    'TR',
+                                    locale.languageCode == 'tr',
+                                  ),
+                                  const SizedBox(width: 8),
+                                  _buildLanguageOption(
+                                    'EN',
+                                    locale.languageCode == 'en',
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 8,
+                      ),
+                      child: _buildDrawerItem(LucideIcons.settings, 'Settings'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

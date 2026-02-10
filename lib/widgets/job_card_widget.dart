@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../data/mock_db.dart';
@@ -87,6 +88,20 @@ class JobCardWidget extends StatelessWidget {
               (match) => ' ${match.group(0)}',
             )
             .trim();
+    }
+  }
+
+  String _formatDate(BuildContext context, String dateStr) {
+    if (dateStr.isEmpty) return '';
+    try {
+      final date = DateTime.parse(dateStr);
+      final locale = Localizations.localeOf(context).languageCode;
+      // Use 'd MMM' for short format or 'd MMMM y' for full.
+      // Given the space, 'd MMM y' might be safe or just 'd MMM'.
+      // Let's use 'd MMM y' for now.
+      return intl.DateFormat('d MMM y', locale).format(date);
+    } catch (e) {
+      return dateStr;
     }
   }
 
@@ -195,7 +210,7 @@ class JobCardWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  '${AppLocalizations.of(context)!.deadline}: ${job.deadline}',
+                  '${AppLocalizations.of(context)!.deadline}: ${_formatDate(context, job.deadline)}',
                   style: const TextStyle(
                     color: AppTheme.textSecondary,
                     fontSize: 11,
@@ -210,7 +225,7 @@ class JobCardWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '${AppLocalizations.of(context)!.agencyDeadline}: ${job.internalDeadline}',
+                    '${AppLocalizations.of(context)!.agencyDeadline}: ${_formatDate(context, job.internalDeadline)}',
                     style: const TextStyle(
                       color: Colors.blue, // Changed color to match icon
                       fontSize: 11,

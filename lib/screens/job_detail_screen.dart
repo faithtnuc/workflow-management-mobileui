@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../data/mock_db.dart';
@@ -46,6 +47,17 @@ class JobDetailScreen extends StatelessWidget {
     return (isTr && job.descriptionTR.isNotEmpty)
         ? job.descriptionTR
         : job.description;
+  }
+
+  String _formatDate(BuildContext context, String dateStr) {
+    if (dateStr.isEmpty) return '';
+    try {
+      final date = DateTime.parse(dateStr);
+      final locale = Localizations.localeOf(context).languageCode;
+      return intl.DateFormat('d MMM y', locale).format(date);
+    } catch (e) {
+      return dateStr;
+    }
   }
 
   @override
@@ -154,7 +166,7 @@ class JobDetailScreen extends StatelessWidget {
                       _buildInfoItem(
                         context,
                         'Deadline',
-                        job.deadline,
+                        _formatDate(context, job.deadline),
                         icon: LucideIcons.calendar,
                       ),
                     ],
@@ -172,7 +184,7 @@ class JobDetailScreen extends StatelessWidget {
                       _buildInfoItem(
                         context,
                         'Internal Deadline',
-                        job.internalDeadline,
+                        _formatDate(context, job.internalDeadline),
                         icon: LucideIcons.alertCircle,
                         isUrgent: true,
                       ),
