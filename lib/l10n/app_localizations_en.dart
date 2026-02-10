@@ -115,4 +115,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get jobMobileRefresh => 'Mobile App Refresh';
+
+  @override
+  String get workflowManagement => 'Workflow Management';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get menuJobs => 'Jobs';
+
+  @override
+  String get designTeam => 'Design Team';
+
+  @override
+  String get devSquad => 'Dev Squad';
+
+  @override
+  String get marketing => 'Marketing';
 }

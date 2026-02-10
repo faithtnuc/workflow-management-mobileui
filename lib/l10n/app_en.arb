@@ -35,5 +35,11 @@
     "jobSocialMedia": "Social Media Campaign",
     "jobSafetyVideo": "Safety Protocols Video",
     "jobSuitInterface": "Suit Interface Mockups",
-    "jobMobileRefresh": "Mobile App Refresh"
+    "jobMobileRefresh": "Mobile App Refresh",
+    "workflowManagement": "Workflow Management",
+    "language": "Language",
+    "menuJobs": "Jobs",
+    "designTeam": "Design Team",
+    "devSquad": "Dev Squad",
+    "marketing": "Marketing"
 }

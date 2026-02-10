@@ -115,4 +115,22 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get jobMobileRefresh => 'Mobil Uygulama Yenileme';
+
+  @override
+  String get workflowManagement => 'İş Akış Yönetimi';
+
+  @override
+  String get language => 'Dil';
+
+  @override
+  String get menuJobs => 'İşler';
+
+  @override
+  String get designTeam => 'Tasarım Ekibi';
+
+  @override
+  String get devSquad => 'Yazılım Ekibi';
+
+  @override
+  String get marketing => 'Pazarlama';
 }

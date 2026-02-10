@@ -4,6 +4,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../controllers/language_controller.dart';
 import '../data/mock_db.dart';
+import '../l10n/app_localizations.dart';
 import '../screens/add_job_screen.dart';
 import '../screens/calendar_screen.dart';
 import '../screens/dashboard_screen.dart';
@@ -111,7 +112,7 @@ class _MainScaffoldState extends State<MainScaffold> {
                                 ),
                           ),
                           Text(
-                            'Workflow Management',
+                            AppLocalizations.of(context)!.workflowManagement,
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(color: AppTheme.textSecondary),
                           ),
@@ -128,15 +129,33 @@ class _MainScaffoldState extends State<MainScaffold> {
                         children: [
                           _buildDrawerItem(
                             LucideIcons.briefcase,
-                            'Jobs',
+                            AppLocalizations.of(context)!.menuJobs,
                             badge: '12',
                           ),
-                          _buildDrawerItem(LucideIcons.users, 'Timesheets'),
-                          _buildDrawerItem(LucideIcons.users, 'Clients'),
-                          _buildDrawerItem(LucideIcons.lightbulb, 'Ideas'),
-                          _buildDrawerItem(LucideIcons.fileText, 'Reporting'),
-                          _buildDrawerItem(LucideIcons.creditCard, 'Finance'),
-                          _buildDrawerItem(LucideIcons.userCog, 'HR'),
+                          _buildDrawerItem(
+                            LucideIcons.users,
+                            AppLocalizations.of(context)!.timesheets,
+                          ),
+                          _buildDrawerItem(
+                            LucideIcons.users,
+                            AppLocalizations.of(context)!.clients,
+                          ),
+                          _buildDrawerItem(
+                            LucideIcons.lightbulb,
+                            AppLocalizations.of(context)!.ideas,
+                          ),
+                          _buildDrawerItem(
+                            LucideIcons.fileText,
+                            AppLocalizations.of(context)!.reporting,
+                          ),
+                          _buildDrawerItem(
+                            LucideIcons.creditCard,
+                            AppLocalizations.of(context)!.finance,
+                          ),
+                          _buildDrawerItem(
+                            LucideIcons.userCog,
+                            AppLocalizations.of(context)!.hr,
+                          ),
                           const Divider(),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -144,7 +163,9 @@ class _MainScaffoldState extends State<MainScaffold> {
                               vertical: 8,
                             ),
                             child: Text(
-                              'WORKSPACES',
+                              AppLocalizations.of(
+                                context,
+                              )!.workspaces.toUpperCase(),
                               style: Theme.of(context).textTheme.labelSmall
                                   ?.copyWith(
                                     color: AppTheme.textSecondary,
@@ -153,11 +174,17 @@ class _MainScaffoldState extends State<MainScaffold> {
                             ),
                           ),
                           _buildWorkspaceItem(
-                            'Design Team',
+                            AppLocalizations.of(context)!.designTeam,
                             Colors.purpleAccent,
                           ),
-                          _buildWorkspaceItem('Dev Squad', Colors.blueAccent),
-                          _buildWorkspaceItem('Marketing', Colors.pinkAccent),
+                          _buildWorkspaceItem(
+                            AppLocalizations.of(context)!.devSquad,
+                            Colors.blueAccent,
+                          ),
+                          _buildWorkspaceItem(
+                            AppLocalizations.of(context)!.marketing,
+                            Colors.pinkAccent,
+                          ),
                         ],
                       ),
                     ),
@@ -168,9 +195,9 @@ class _MainScaffoldState extends State<MainScaffold> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Language',
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(context)!.language,
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                               color: AppTheme.textMain,
@@ -203,7 +230,10 @@ class _MainScaffoldState extends State<MainScaffold> {
                         horizontal: 8,
                         vertical: 8,
                       ),
-                      child: _buildDrawerItem(LucideIcons.settings, 'Settings'),
+                      child: _buildDrawerItem(
+                        LucideIcons.settings,
+                        AppLocalizations.of(context)!.settings,
+                      ),
                     ),
                   ],
                 ),

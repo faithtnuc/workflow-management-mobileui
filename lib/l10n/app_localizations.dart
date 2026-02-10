@@ -313,6 +313,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mobile App Refresh'**
   String get jobMobileRefresh;
+
+  /// No description provided for @workflowManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Workflow Management'**
+  String get workflowManagement;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @menuJobs.
+  ///
+  /// In en, this message translates to:
+  /// **'Jobs'**
+  String get menuJobs;
+
+  /// No description provided for @designTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Design Team'**
+  String get designTeam;
+
+  /// No description provided for @devSquad.
+  ///
+  /// In en, this message translates to:
+  /// **'Dev Squad'**
+  String get devSquad;
+
+  /// No description provided for @marketing.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing'**
+  String get marketing;
 }
 
 class _AppLocalizationsDelegate
