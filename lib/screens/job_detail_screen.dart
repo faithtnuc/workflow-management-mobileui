@@ -76,7 +76,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
     try {
       final date = DateTime.parse(dateStr);
       final locale = Localizations.localeOf(context).languageCode;
-      return intl.DateFormat('d MMM', locale).format(date);
+      return intl.DateFormat('dd.MM.yyyy', locale).format(date);
     } catch (e) {
       return dateStr;
     }
@@ -84,8 +84,6 @@ class _JobDetailScreenState extends State<JobDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: NestedScrollView(
@@ -105,7 +103,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
               ),
               centerTitle: true,
               title: Text(
-                '#${widget.job.id}',
+                '${widget.client.name} #${widget.job.id}',
                 style: const TextStyle(
                   color: AppTheme.textMain,
                   fontWeight: FontWeight.bold,
@@ -127,20 +125,30 @@ class _JobDetailScreenState extends State<JobDetailScreen>
               delegate: _SliverAppBarDelegate(
                 TabBar(
                   controller: _tabController,
-                  labelColor: AppTheme.primary,
+                  labelColor: AppTheme.textMain,
                   unselectedLabelColor: AppTheme.textSecondary,
-                  indicatorColor: AppTheme.primary,
-                  indicatorWeight: 3,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  dividerColor: Colors.transparent,
                   labelStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 13,
                   ),
-                  tabs: [
-                    const Tab(text: 'Detaylar'), // TODO: Localize
-                    Tab(
-                      text: l10n.clientChat,
-                    ), // Reusing existing localized string vaguely or just 'Mesajlar'
-                    const Tab(text: 'Dosyalar'), // TODO: Localize
+                  splashBorderRadius: BorderRadius.circular(12),
+                  tabs: const [
+                    Tab(text: 'Detaylar'), // TODO: Localize
+                    Tab(text: 'Mesajlar'),
+                    Tab(text: 'Dosyalar'), // TODO: Localize
                   ],
                 ),
               ),
@@ -245,40 +253,6 @@ class _JobDetailScreenState extends State<JobDetailScreen>
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          // Status Dropdown
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade50,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppTheme.border),
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  LucideIcons.activity,
-                  size: 16,
-                  color: AppTheme.primary,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  widget.job.status, // Should use localized status
-                  style: const TextStyle(
-                    color: AppTheme.textMain,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-                const Spacer(),
-                const Icon(
-                  LucideIcons.chevronDown,
-                  size: 16,
-                  color: AppTheme.textSecondary,
-                ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -290,53 +264,108 @@ class _JobDetailScreenState extends State<JobDetailScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Dates Section
-          Row(
-            children: [
-              Expanded(
-                child: _buildInteractiveField(
-                  icon: LucideIcons.calendar,
-                  label: 'Müşteri T.',
-                  value: _formatDate(context, widget.job.deadline),
-                  isUrgent: false,
+          // Info Card (Status, Dates, People)
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.border),
+            ),
+            child: Column(
+              children: [
+                // Row 1: Status | Client Date
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _buildInfoItem(
+                          icon: LucideIcons.activity,
+                          label: 'Status', // TODO: Localize
+                          value: widget.job.status,
+                          isEditable: true,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _buildInfoItem(
+                          icon: LucideIcons.calendar,
+                          label: 'Müşteri Tarihi',
+                          value: _formatDate(context, widget.job.deadline),
+                          isEditable: false,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildInteractiveField(
-                  icon: LucideIcons.flag,
-                  label: 'Ajans T.',
-                  value: _formatDate(context, widget.job.internalDeadline),
-                  isUrgent: true, // Internal deadline is important
+                const Divider(height: 1, color: AppTheme.border),
+                // Row 2: Assignee | Agency Date
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _buildInfoItem(
+                          icon: LucideIcons.user,
+                          label: 'Yetkili Kişi',
+                          value: widget.job.assignee,
+                          isEditable: true,
+                          showAvatar: true,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _buildInfoItem(
+                          icon: LucideIcons.flag,
+                          label: 'Ajans Tarihi',
+                          value: _formatDate(
+                            context,
+                            widget.job.internalDeadline,
+                          ),
+                          isEditable: true,
+                          isUrgent: true,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          // People Section
-          Row(
-            children: [
-              Expanded(
-                child: _buildInteractiveField(
-                  icon: LucideIcons.user,
-                  label: 'Atanan',
-                  value: widget.job.assignee, // Could be avatar
-                  isUrgent: false,
-                  showAvatar: true,
+                const Divider(height: 1, color: AppTheme.border),
+                // Row 3: Visibility | Urgency
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _buildInfoItem(
+                          icon: widget.job.isClientVisible
+                              ? LucideIcons.eye
+                              : LucideIcons.eyeOff,
+                          label: 'Müşteri Görünürlüğü',
+                          value: widget.job.isClientVisible
+                              ? 'Göster'
+                              : 'Gizle',
+                          isEditable: true,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _buildInfoItem(
+                          icon: LucideIcons.siren, // or AlertTriangle
+                          label: 'Aciliyet',
+                          value: widget.job.status == 'Urgent'
+                              ? 'Acil'
+                              : 'Normal', // Simple mapping
+                          isEditable: true,
+                          isUrgent: widget.job.status == 'Urgent',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildInteractiveField(
-                  icon: widget.job.isClientVisible
-                      ? LucideIcons.eye
-                      : LucideIcons.eyeOff,
-                  label: 'Görünürlük',
-                  value: widget.job.isClientVisible ? 'Müşteri' : 'Gizli',
-                  isUrgent: false,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
 
           const SizedBox(height: 24),
@@ -352,12 +381,20 @@ class _JobDetailScreenState extends State<JobDetailScreen>
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            _getLocalizedDescription(context),
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppTheme.textMain,
-              height: 1.5,
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.border),
+            ),
+            child: Text(
+              _getLocalizedDescription(context),
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppTheme.textMain,
+                height: 1.5,
+              ),
             ),
           ),
 
@@ -374,74 +411,90 @@ class _JobDetailScreenState extends State<JobDetailScreen>
             ),
           ),
           const SizedBox(height: 12),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: widget.job.requirements.map((req) {
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 2.5,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemCount: widget.job.requirements.length,
+            itemBuilder: (context, index) {
+              final req = widget.job.requirements[index];
               return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppTheme.border),
                 ),
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Fake checkbox
                     Container(
-                      width: 16,
-                      height: 16,
+                      width: 14,
+                      height: 14,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppTheme.textSecondary),
+                        border: Border.all(
+                          color: AppTheme.textSecondary,
+                          width: 1.5,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      req,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppTheme.textMain,
-                        fontWeight: FontWeight.w500,
+                    Flexible(
+                      child: Text(
+                        req,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: AppTheme.textMain,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
               );
-            }).toList(),
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInteractiveField({
+  Widget _buildInfoItem({
     required IconData icon,
     required String label,
     required String value,
-    required bool isUrgent,
+    bool isUrgent = false,
+    bool isEditable = false,
     bool showAvatar = false,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Colors.transparent,
-        ), // Placeholder for active state
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: isUrgent ? AppTheme.dangerBg : Colors.grey.shade50,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            icon,
+            size: 16,
+            color: isUrgent ? AppTheme.danger : AppTheme.textSecondary,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, size: 14, color: AppTheme.textSecondary),
-              const SizedBox(width: 6),
               Text(
                 label,
                 style: const TextStyle(
@@ -450,46 +503,49 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const Spacer(),
-              if (!showAvatar) // Don't show chevron if avatar is the main thing, or maybe do? Design says edit icon.
-                const Icon(
-                  LucideIcons.chevronDown,
-                  size: 14,
-                  color: AppTheme.textSecondary,
-                ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              if (showAvatar) ...[
-                CircleAvatar(
-                  radius: 10,
-                  backgroundColor: AppTheme.primary,
-                  child: Text(
-                    value.isNotEmpty ? value[0] : '?',
-                    style: const TextStyle(fontSize: 10, color: Colors.white),
+              const SizedBox(height: 2),
+              Row(
+                children: [
+                  if (showAvatar) ...[
+                    CircleAvatar(
+                      radius: 8,
+                      backgroundColor: AppTheme.primary,
+                      child: Text(
+                        value.isNotEmpty ? value[0] : '?',
+                        style: const TextStyle(
+                          fontSize: 8,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                  ],
+                  Flexible(
+                    child: Text(
+                      value,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: isUrgent ? AppTheme.danger : AppTheme.textMain,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-              ],
-              Expanded(
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: isUrgent
-                        ? Colors.orange.shade800
-                        : AppTheme.textMain,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
+                  if (isEditable) ...[
+                    const SizedBox(width: 4),
+                    const Icon(
+                      LucideIcons.chevronDown,
+                      size: 12,
+                      color: AppTheme.textSecondary,
+                    ),
+                  ],
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -814,9 +870,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this._tabBar);
 
   @override
-  double get minExtent => _tabBar.preferredSize.height + 1; // +1 for border
+  double get minExtent => _tabBar.preferredSize.height + 24; // Padding for visual balance
   @override
-  double get maxExtent => _tabBar.preferredSize.height + 1;
+  double get maxExtent => _tabBar.preferredSize.height + 24;
 
   @override
   Widget build(
@@ -826,7 +882,16 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   ) {
     return Container(
       color: AppTheme.surface,
-      child: Column(children: [_tabBar, const Divider(height: 1)]),
+      alignment: Alignment.center,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: _tabBar,
+      ),
     );
   }
 
