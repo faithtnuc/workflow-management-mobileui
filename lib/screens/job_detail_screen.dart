@@ -120,12 +120,34 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                 onPressed: () => Navigator.pop(context),
               ),
               centerTitle: true,
-              title: Text(
-                '${widget.client.name} #${widget.job.id}',
-                style: const TextStyle(
-                  color: AppTheme.textMain,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              title: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: widget.client.name,
+                      style: const TextStyle(
+                        color: Color(0xFF1F2937),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const TextSpan(
+                      text: ' / ',
+                      style: TextStyle(
+                        color: Color(0xFF9CA3AF),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    TextSpan(
+                      text: '#${widget.job.id}',
+                      style: const TextStyle(
+                        color: Color(0xFF6B7280),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               actions: [
@@ -440,17 +462,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
             ),
-            itemCount: 6, // Fixed 6 items
+            itemCount: MockDb.availableRequirements.length,
             itemBuilder: (context, index) {
-              final requirementsList = [
-                'Yazılım',
-                'Baskı',
-                '3D',
-                'Video',
-                'Mobil',
-                'Tasarım',
-              ];
-              final req = requirementsList[index];
+              final req = MockDb.availableRequirements[index];
               final icon = _getRequirementIcon(req);
               // Check if the current job has this requirement
               final isChecked = widget.job.requirements.any(
@@ -459,9 +473,16 @@ class _JobDetailScreenState extends State<JobDetailScreen>
 
               return Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: isChecked
+                      ? const Color(0xFFEEF2FF).withOpacity(0.3)
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.border),
+                  border: Border.all(
+                    color: isChecked
+                        ? const Color(0xFF6366F1)
+                        : const Color(0xFFE2E8F0),
+                    width: isChecked ? 1.5 : 1.0,
+                  ),
                 ),
                 child: Stack(
                   children: [
@@ -477,12 +498,14 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                               (
                                 val,
                               ) {}, // Read-only for now or interactive if needed
-                          activeColor: AppTheme.primary,
+                          activeColor: const Color(0xFF4F46E5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          side: const BorderSide(
-                            color: AppTheme.textSecondary,
+                          side: BorderSide(
+                            color: isChecked
+                                ? const Color(0xFF4F46E5)
+                                : const Color(0xFF94A3B8),
                             width: 1.5,
                           ),
                         ),
@@ -494,15 +517,23 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(icon, size: 24, color: AppTheme.textSecondary),
+                          Icon(
+                            icon,
+                            size: 24,
+                            color: isChecked
+                                ? const Color(0xFF4F46E5)
+                                : const Color(0xFF94A3B8),
+                          ),
                           const SizedBox(height: 8),
                           Center(
                             child: Text(
                               req,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11,
-                                color: AppTheme.textMain,
+                                color: isChecked
+                                    ? const Color(0xFF312E81)
+                                    : const Color(0xFF64748B),
                                 fontWeight: FontWeight.w600,
                               ),
                               maxLines: 1,
@@ -672,9 +703,11 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       decoration: BoxDecoration(
                         color: isMe
                             ? (_activeMessageTab == 'internal'
-                                  ? Colors.orange
-                                  : AppTheme.primary)
-                            : Colors.white,
+                                  ? const Color(0xFFEA580C) // Orange 600
+                                  : const Color(0xFF4F46E5)) // Indigo 600
+                            : (_activeMessageTab == 'internal'
+                                  ? const Color(0xFFFFF7ED) // Orange 50
+                                  : Colors.white),
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16),
                           topRight: const Radius.circular(16),
