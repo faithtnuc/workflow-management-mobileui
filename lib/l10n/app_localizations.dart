@@ -349,6 +349,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Marketing'**
   String get marketing;
+
+  /// No description provided for @requestedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Requested by {name}'**
+  String requestedBy(String name);
+
+  /// No description provided for @tabDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get tabDetails;
+
+  /// No description provided for @tabMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get tabMessages;
+
+  /// No description provided for @tabFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get tabFiles;
+
+  /// No description provided for @labelStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get labelStatus;
+
+  /// No description provided for @labelClientDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Client Date'**
+  String get labelClientDate;
+
+  /// No description provided for @labelAssignee.
+  ///
+  /// In en, this message translates to:
+  /// **'Assignee'**
+  String get labelAssignee;
+
+  /// No description provided for @labelAgencyDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency Date'**
+  String get labelAgencyDate;
+
+  /// No description provided for @labelVisibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Client Visibility'**
+  String get labelVisibility;
+
+  /// No description provided for @visible.
+  ///
+  /// In en, this message translates to:
+  /// **'Visible'**
+  String get visible;
+
+  /// No description provided for @hidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get hidden;
+
+  /// No description provided for @labelUrgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgency'**
+  String get labelUrgency;
+
+  /// No description provided for @urgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent'**
+  String get urgent;
+
+  /// No description provided for @notUrgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get notUrgent;
+
+  /// No description provided for @headerDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'DESCRIPTION'**
+  String get headerDescription;
+
+  /// No description provided for @headerRequirements.
+  ///
+  /// In en, this message translates to:
+  /// **'REQUIREMENTS'**
+  String get headerRequirements;
+
+  /// No description provided for @hintMessageClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Message client...'**
+  String get hintMessageClient;
+
+  /// No description provided for @hintMessageInternal.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal note...'**
+  String get hintMessageInternal;
+
+  /// No description provided for @segmentClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get segmentClient;
+
+  /// No description provided for @segmentInternal.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal'**
+  String get segmentInternal;
+
+  /// No description provided for @reqSoftware.
+  ///
+  /// In en, this message translates to:
+  /// **'Software'**
+  String get reqSoftware;
+
+  /// No description provided for @reqPrint.
+  ///
+  /// In en, this message translates to:
+  /// **'Print'**
+  String get reqPrint;
+
+  /// No description provided for @req3D.
+  ///
+  /// In en, this message translates to:
+  /// **'3D'**
+  String get req3D;
+
+  /// No description provided for @reqVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get reqVideo;
+
+  /// No description provided for @reqMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile'**
+  String get reqMobile;
+
+  /// No description provided for @reqDesign.
+  ///
+  /// In en, this message translates to:
+  /// **'Design'**
+  String get reqDesign;
 }
 
 class _AppLocalizationsDelegate

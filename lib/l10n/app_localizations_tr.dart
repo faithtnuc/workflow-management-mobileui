@@ -133,4 +133,84 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get marketing => 'Pazarlama';
+
+  @override
+  String requestedBy(String name) {
+    return '$name tarafından istendi';
+  }
+
+  @override
+  String get tabDetails => 'Detaylar';
+
+  @override
+  String get tabMessages => 'Mesajlar';
+
+  @override
+  String get tabFiles => 'Dosyalar';
+
+  @override
+  String get labelStatus => 'Durum';
+
+  @override
+  String get labelClientDate => 'Müşteri Tarihi';
+
+  @override
+  String get labelAssignee => 'Yetkili Kişi';
+
+  @override
+  String get labelAgencyDate => 'Ajans Tarihi';
+
+  @override
+  String get labelVisibility => 'Müşteri Görünürlüğü';
+
+  @override
+  String get visible => 'Göster';
+
+  @override
+  String get hidden => 'Gizle';
+
+  @override
+  String get labelUrgency => 'Aciliyet';
+
+  @override
+  String get urgent => 'Acil';
+
+  @override
+  String get notUrgent => 'Acil Değil';
+
+  @override
+  String get headerDescription => 'AÇIKLAMA';
+
+  @override
+  String get headerRequirements => 'GEREKSİNİMLER';
+
+  @override
+  String get hintMessageClient => 'Müşteriye mesaj yaz...';
+
+  @override
+  String get hintMessageInternal => 'Dahili not ekle...';
+
+  @override
+  String get segmentClient => 'Müşteri';
+
+  @override
+  String get segmentInternal => 'Dahili';
+
+  @override
+  String get reqSoftware => 'Yazılım';
+
+  @override
+  String get reqPrint => 'Baskı';
+
+  @override
+  String get req3D => '3D';
+
+  @override
+  String get reqVideo => 'Video';
+
+  @override
+  String get reqMobile => 'Mobil';
+
+  @override
+  String get reqDesign => 'Tasarım';
 }

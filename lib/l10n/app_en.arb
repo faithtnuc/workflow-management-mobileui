@@ -41,5 +41,38 @@
     "menuJobs": "Jobs",
     "designTeam": "Design Team",
     "devSquad": "Dev Squad",
-    "marketing": "Marketing"
+    "marketing": "Marketing",
+    "requestedBy": "Requested by {name}",
+    "@requestedBy": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tabDetails": "Details",
+    "tabMessages": "Messages",
+    "tabFiles": "Files",
+    "labelStatus": "Status",
+    "labelClientDate": "Client Date",
+    "labelAssignee": "Assignee",
+    "labelAgencyDate": "Agency Date",
+    "labelVisibility": "Client Visibility",
+    "visible": "Visible",
+    "hidden": "Hidden",
+    "labelUrgency": "Urgency",
+    "urgent": "Urgent",
+    "notUrgent": "Normal",
+    "headerDescription": "DESCRIPTION",
+    "headerRequirements": "REQUIREMENTS",
+    "hintMessageClient": "Message client...",
+    "hintMessageInternal": "Internal note...",
+    "segmentClient": "Client",
+    "segmentInternal": "Internal",
+    "reqSoftware": "Software",
+    "reqPrint": "Print",
+    "req3D": "3D",
+    "reqVideo": "Video",
+    "reqMobile": "Mobile",
+    "reqDesign": "Design"
 }

@@ -36,6 +36,7 @@ class JobLog {
   final int id;
   final String type; // 'log' or 'comment'
   final String text;
+  final String textTR; // Added for localization
   final String user;
   final String timestamp;
   final String visibility; // 'internal' or 'client'
@@ -44,6 +45,7 @@ class JobLog {
     required this.id,
     required this.type,
     required this.text,
+    required this.textTR,
     required this.user,
     required this.timestamp,
     required this.visibility,
@@ -220,6 +222,7 @@ class MockDb {
           id: 1,
           type: 'log',
           text: 'Job created',
+          textTR: 'İş oluşturuldu',
           user: 'Sarah Connor',
           timestamp: '2023-10-20 09:00',
           visibility: 'internal',
@@ -229,6 +232,8 @@ class MockDb {
           type: 'comment',
           text:
               'Initial draft is ready for review. I focused on the "modern" look.',
+          textTR:
+              'İlk taslak inceleme için hazır. "Modern" görünüme odaklandım.',
           user: 'Mert Tunç',
           timestamp: '2023-10-25 14:30',
           visibility: 'internal',
@@ -238,6 +243,8 @@ class MockDb {
           type: 'comment',
           text:
               'Looks good, minor tweaks on the budget section needed. Can we make the font larger?',
+          textTR:
+              'Güzel görünüyor, bütçe bölümünde ufak düzeltmeler gerekiyor. Yazı tipini büyütebilir miyiz?',
           user: 'Sarah Connor',
           timestamp: '2023-10-26 10:15',
           visibility: 'client',
@@ -247,6 +254,8 @@ class MockDb {
           type: 'comment',
           text:
               'Sure, I will update the typography and send a new version by EOD.',
+          textTR:
+              'Elbette, tipografiyi güncelleyip gün sonuna kadar yeni bir versiyon göndereceğim.',
           user: 'Mert Tunç',
           timestamp: '2023-10-26 11:00',
           visibility: 'client',
@@ -255,6 +264,8 @@ class MockDb {
           id: 5,
           type: 'comment',
           text: 'Internal Note: Check if we have the license for that font.',
+          textTR:
+              'Dahili Not: O yazı tipi için lisansımız olup olmadığını kontrol et.',
           user: 'Mert Tunç',
           timestamp: '2023-10-26 11:05',
           visibility: 'internal',
@@ -313,6 +324,7 @@ class MockDb {
           id: 1,
           type: 'log',
           text: 'Job created',
+          textTR: 'İş oluşturuldu',
           user: 'Hank Scorpio',
           timestamp: '2023-10-01 11:00',
           visibility: 'internal',
@@ -321,6 +333,8 @@ class MockDb {
           id: 2,
           type: 'comment',
           text: 'Wireframes approved. Moving to high-fidelity designs.',
+          textTR:
+              'Tel kafesler onaylandı. Yüksek sadakatli tasarımlara geçiliyor.',
           user: 'Mert Tunç',
           timestamp: '2023-10-05 16:45',
           visibility: 'client',
@@ -329,6 +343,7 @@ class MockDb {
           id: 3,
           type: 'comment',
           text: 'Internal note: Client is sensitive about the color palette.',
+          textTR: 'Dahili not: Müşteri renk paleti konusunda hassas.',
           user: 'Mert Tunç',
           timestamp: '2023-10-05 16:50',
           visibility: 'internal',
@@ -338,6 +353,8 @@ class MockDb {
           type: 'comment',
           text:
               'I really like the new direction! Can we make the logo pop more?',
+          textTR:
+              'Yeni yönü gerçekten beğendim! Logoyu daha belirgin yapabilir miyiz?',
           user: 'Hank Scorpio',
           timestamp: '2023-10-06 09:30',
           visibility: 'client',
@@ -346,6 +363,7 @@ class MockDb {
           id: 5,
           type: 'comment',
           text: 'Absolutely, I will add more contrast to the header area.',
+          textTR: 'Kesinlikle, başlık alanına daha fazla kontrast ekleyeceğim.',
           user: 'Mert Tunç',
           timestamp: '2023-10-06 10:00',
           visibility: 'client',
@@ -396,6 +414,7 @@ class MockDb {
           id: 1,
           type: 'log',
           text: 'Job created',
+          textTR: 'İş oluşturuldu',
           user: 'Richard T.',
           timestamp: '2023-10-28 08:30',
           visibility: 'internal',
@@ -430,6 +449,7 @@ class MockDb {
           id: 1,
           type: 'log',
           text: 'Job created',
+          textTR: 'İş oluşturuldu',
           user: 'John Doe',
           timestamp: '2023-11-01 10:00',
           visibility: 'internal',
@@ -464,6 +484,7 @@ class MockDb {
           id: 1,
           type: 'log',
           text: 'Job created',
+          textTR: 'İş oluşturuldu',
           user: 'Albert W.',
           timestamp: '2023-11-05 09:15',
           visibility: 'internal',
@@ -472,6 +493,7 @@ class MockDb {
           id: 2,
           type: 'comment',
           text: 'Raw footage uploaded to server.',
+          textTR: 'Ham görüntüler sunucuya yüklendi.',
           user: 'Alex Jensen',
           timestamp: '2023-11-06 11:30',
           visibility: 'internal',
@@ -480,6 +502,7 @@ class MockDb {
           id: 3,
           type: 'comment',
           text: 'Please check the audio levels in scene 3.',
+          textTR: 'Lütfen 3. sahnedeki ses seviyelerini kontrol edin.',
           user: 'Albert W.',
           timestamp: '2023-11-06 14:20',
           visibility: 'client',
@@ -532,6 +555,7 @@ class MockDb {
           id: 1,
           type: 'log',
           text: 'Job created',
+          textTR: 'İş oluşturuldu',
           user: 'Pepper Potts',
           timestamp: '2023-11-15 08:30',
           visibility: 'internal',
@@ -540,6 +564,7 @@ class MockDb {
           id: 2,
           type: 'comment',
           text: 'Tony wants the blue to be more "electric".',
+          textTR: 'Tony mavinin daha "elektrikli" olmasını istiyor.',
           user: 'Pepper Potts',
           timestamp: '2023-11-16 10:00',
           visibility: 'client',
@@ -548,6 +573,8 @@ class MockDb {
           id: 3,
           type: 'comment',
           text: 'Internal Note: Check the hex codes from the brand guidelines.',
+          textTR:
+              'Dahili Not: Marka yönergelerindeki onaltılık kodları kontrol et.',
           user: 'Fatih Tunç',
           timestamp: '2023-11-16 10:15',
           visibility: 'internal',

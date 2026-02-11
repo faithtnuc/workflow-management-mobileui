@@ -76,7 +76,11 @@ class _JobDetailScreenState extends State<JobDetailScreen>
     try {
       final date = DateTime.parse(dateStr);
       final locale = Localizations.localeOf(context).languageCode;
-      return intl.DateFormat('dd.MM.yyyy', locale).format(date);
+      if (locale == 'tr') {
+        return intl.DateFormat('dd.MM.yyyy', locale).format(date);
+      } else {
+        return intl.DateFormat('MMM d, yyyy', locale).format(date);
+      }
     } catch (e) {
       return dateStr;
     }
@@ -100,8 +104,28 @@ class _JobDetailScreenState extends State<JobDetailScreen>
     return LucideIcons.file;
   }
 
+  String _getLocalizedRequirement(BuildContext context, String req) {
+    final l10n = AppLocalizations.of(context)!;
+    final lower = req.toLowerCase();
+    if (lower.contains('yazılım') || lower.contains('software')) {
+      return l10n.reqSoftware;
+    } else if (lower.contains('baskı') || lower.contains('print')) {
+      return l10n.reqPrint;
+    } else if (lower.contains('3d')) {
+      return l10n.req3D;
+    } else if (lower.contains('video')) {
+      return l10n.reqVideo;
+    } else if (lower.contains('mobil') || lower.contains('mobile')) {
+      return l10n.reqMobile;
+    } else if (lower.contains('tasarım') || lower.contains('design')) {
+      return l10n.reqDesign;
+    }
+    return req;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: NestedScrollView(
@@ -185,10 +209,10 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                     fontSize: 13,
                   ),
                   splashBorderRadius: BorderRadius.circular(12),
-                  tabs: const [
-                    Tab(text: 'Detaylar'), // TODO: Localize
-                    Tab(text: 'Mesajlar'),
-                    Tab(text: 'Dosyalar'), // TODO: Localize
+                  tabs: [
+                    Tab(text: l10n.tabDetails),
+                    Tab(text: l10n.tabMessages),
+                    Tab(text: l10n.tabFiles),
                   ],
                 ),
               ),
@@ -209,6 +233,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
   }
 
   Widget _buildHeader(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       color: AppTheme.surface,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -247,7 +272,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                     Row(
                       children: [
                         Text(
-                          'Requested by ${widget.job.requester}',
+                          l10n.requestedBy(widget.job.requester),
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppTheme.textSecondary,
@@ -277,9 +302,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                               color: AppTheme.dangerBg,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Text(
-                              'Acil',
-                              style: TextStyle(
+                            child: Text(
+                              l10n.statusUrgent,
+                              style: const TextStyle(
                                 color: AppTheme.danger,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
@@ -299,6 +324,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
   }
 
   Widget _buildDetailsTab(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -322,8 +348,10 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       Expanded(
                         child: _buildInfoItem(
                           icon: LucideIcons.activity,
-                          label: 'Status', // TODO: Localize
-                          value: widget.job.status,
+                          label: l10n.labelStatus,
+                          value: widget
+                              .job
+                              .status, // TODO: Localize Status Value if needed
                           isEditable: true,
                         ),
                       ),
@@ -331,7 +359,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       Expanded(
                         child: _buildInfoItem(
                           icon: LucideIcons.calendar,
-                          label: 'Müşteri Tarihi',
+                          label: l10n.labelClientDate,
                           value: _formatDate(context, widget.job.deadline),
                           isEditable: false,
                         ),
@@ -349,7 +377,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       Expanded(
                         child: _buildInfoItem(
                           icon: LucideIcons.user,
-                          label: 'Yetkili Kişi',
+                          label: l10n.labelAssignee,
                           value: widget.job.assignee,
                           isEditable: true,
                           showAvatar: false, // Removed avatar
@@ -359,7 +387,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       Expanded(
                         child: _buildInfoItem(
                           icon: LucideIcons.calendar, // Changed to Calendar
-                          label: 'Ajans Tarihi',
+                          label: l10n.labelAgencyDate,
                           value: _formatDate(
                             context,
                             widget.job.internalDeadline,
@@ -383,10 +411,10 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                           icon: widget.job.isClientVisible
                               ? LucideIcons.eye
                               : LucideIcons.eyeOff,
-                          label: 'Müşteri Görünürlüğü',
+                          label: l10n.labelVisibility,
                           value: widget.job.isClientVisible
-                              ? 'Göster'
-                              : 'Gizle',
+                              ? l10n.visible
+                              : l10n.hidden,
                           isEditable: true,
                         ),
                       ),
@@ -394,10 +422,10 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       Expanded(
                         child: _buildInfoItem(
                           icon: LucideIcons.siren,
-                          label: 'Aciliyet',
+                          label: l10n.labelUrgency,
                           value: widget.job.status == 'Urgent'
-                              ? 'Acil'
-                              : 'Acil Değil', // Changed to 'Acil Değil'
+                              ? l10n.urgent
+                              : l10n.notUrgent,
                           isEditable: true,
                           isUrgent: widget.job.status == 'Urgent',
                         ),
@@ -412,9 +440,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
           const SizedBox(height: 24),
 
           // Description
-          const Text(
-            'AÇIKLAMA',
-            style: TextStyle(
+          Text(
+            l10n.headerDescription,
+            style: const TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
               color: AppTheme.textSecondary,
@@ -442,9 +470,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
           const SizedBox(height: 24),
 
           // Requirements
-          const Text(
-            'GEREKSINIMLER',
-            style: TextStyle(
+          Text(
+            l10n.headerRequirements,
+            style: const TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
               color: AppTheme.textSecondary,
@@ -527,7 +555,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                           const SizedBox(height: 8),
                           Center(
                             child: Text(
-                              req,
+                              _getLocalizedRequirement(context, req),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 11,
@@ -645,6 +673,9 @@ class _JobDetailScreenState extends State<JobDetailScreen>
       }
     }).toList();
 
+    final l10n = AppLocalizations.of(context)!;
+    final isTr = Localizations.localeOf(context).languageCode == 'tr';
+
     return Column(
       children: [
         // Segmented Control
@@ -659,8 +690,10 @@ class _JobDetailScreenState extends State<JobDetailScreen>
             ),
             child: Row(
               children: [
-                Expanded(child: _buildSegmentBtn('Client', 'client')),
-                Expanded(child: _buildSegmentBtn('Internal', 'internal')),
+                Expanded(child: _buildSegmentBtn(l10n.segmentClient, 'client')),
+                Expanded(
+                  child: _buildSegmentBtn(l10n.segmentInternal, 'internal'),
+                ),
               ],
             ),
           ),
@@ -675,6 +708,13 @@ class _JobDetailScreenState extends State<JobDetailScreen>
             itemBuilder: (context, index) {
               final log = logs[index];
               final isMe = log.user == MockDb.user.name;
+
+              // Determine text to show based on locale
+              String messageText = log.text;
+              if (isTr && log.textTR.isNotEmpty) {
+                messageText = log.textTR;
+              }
+
               return Row(
                 mainAxisAlignment: isMe
                     ? MainAxisAlignment.end
@@ -738,7 +778,7 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                             ),
                           if (!isMe) const SizedBox(height: 4),
                           Text(
-                            log.text,
+                            messageText,
                             style: TextStyle(
                               color: isMe ? Colors.white : AppTheme.textMain,
                               fontSize: 14,
@@ -778,8 +818,8 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                   controller: _messageController,
                   decoration: InputDecoration(
                     hintText: _activeMessageTab == 'client'
-                        ? 'Message client...'
-                        : 'Internal note...',
+                        ? l10n.hintMessageClient
+                        : l10n.hintMessageInternal,
                     filled: true,
                     fillColor: Colors.grey.shade50,
                     border: OutlineInputBorder(

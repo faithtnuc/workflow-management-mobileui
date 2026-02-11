@@ -133,4 +133,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get marketing => 'Marketing';
+
+  @override
+  String requestedBy(String name) {
+    return 'Requested by $name';
+  }
+
+  @override
+  String get tabDetails => 'Details';
+
+  @override
+  String get tabMessages => 'Messages';
+
+  @override
+  String get tabFiles => 'Files';
+
+  @override
+  String get labelStatus => 'Status';
+
+  @override
+  String get labelClientDate => 'Client Date';
+
+  @override
+  String get labelAssignee => 'Assignee';
+
+  @override
+  String get labelAgencyDate => 'Agency Date';
+
+  @override
+  String get labelVisibility => 'Client Visibility';
+
+  @override
+  String get visible => 'Visible';
+
+  @override
+  String get hidden => 'Hidden';
+
+  @override
+  String get labelUrgency => 'Urgency';
+
+  @override
+  String get urgent => 'Urgent';
+
+  @override
+  String get notUrgent => 'Normal';
+
+  @override
+  String get headerDescription => 'DESCRIPTION';
+
+  @override
+  String get headerRequirements => 'REQUIREMENTS';
+
+  @override
+  String get hintMessageClient => 'Message client...';
+
+  @override
+  String get hintMessageInternal => 'Internal note...';
+
+  @override
+  String get segmentClient => 'Client';
+
+  @override
+  String get segmentInternal => 'Internal';
+
+  @override
+  String get reqSoftware => 'Software';
+
+  @override
+  String get reqPrint => 'Print';
+
+  @override
+  String get req3D => '3D';
+
+  @override
+  String get reqVideo => 'Video';
+
+  @override
+  String get reqMobile => 'Mobile';
+
+  @override
+  String get reqDesign => 'Design';
 }

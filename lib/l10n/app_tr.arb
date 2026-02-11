@@ -41,5 +41,38 @@
     "menuJobs": "İşler",
     "designTeam": "Tasarım Ekibi",
     "devSquad": "Yazılım Ekibi",
-    "marketing": "Pazarlama"
+    "marketing": "Pazarlama",
+    "requestedBy": "{name} tarafından istendi",
+    "@requestedBy": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "tabDetails": "Detaylar",
+    "tabMessages": "Mesajlar",
+    "tabFiles": "Dosyalar",
+    "labelStatus": "Durum",
+    "labelClientDate": "Müşteri Tarihi",
+    "labelAssignee": "Yetkili Kişi",
+    "labelAgencyDate": "Ajans Tarihi",
+    "labelVisibility": "Müşteri Görünürlüğü",
+    "visible": "Göster",
+    "hidden": "Gizle",
+    "labelUrgency": "Aciliyet",
+    "urgent": "Acil",
+    "notUrgent": "Acil Değil",
+    "headerDescription": "AÇIKLAMA",
+    "headerRequirements": "GEREKSİNİMLER",
+    "hintMessageClient": "Müşteriye mesaj yaz...",
+    "hintMessageInternal": "Dahili not ekle...",
+    "segmentClient": "Müşteri",
+    "segmentInternal": "Dahili",
+    "reqSoftware": "Yazılım",
+    "reqPrint": "Baskı",
+    "req3D": "3D",
+    "reqVideo": "Video",
+    "reqMobile": "Mobil",
+    "reqDesign": "Tasarım"
 }
