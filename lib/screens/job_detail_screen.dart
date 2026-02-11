@@ -82,6 +82,24 @@ class _JobDetailScreenState extends State<JobDetailScreen>
     }
   }
 
+  IconData _getRequirementIcon(String req) {
+    final lower = req.toLowerCase();
+    if (lower.contains('yazılım') || lower.contains('software')) {
+      return LucideIcons.monitor;
+    } else if (lower.contains('baskı') || lower.contains('print')) {
+      return LucideIcons.printer;
+    } else if (lower.contains('3d')) {
+      return LucideIcons.box;
+    } else if (lower.contains('video')) {
+      return LucideIcons.video;
+    } else if (lower.contains('mobil') || lower.contains('mobile')) {
+      return LucideIcons.smartphone;
+    } else if (lower.contains('tasarım') || lower.contains('design')) {
+      return LucideIcons.penTool;
+    }
+    return LucideIcons.file;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -312,20 +330,21 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                           label: 'Yetkili Kişi',
                           value: widget.job.assignee,
                           isEditable: true,
-                          showAvatar: true,
+                          showAvatar: false, // Removed avatar
                         ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: _buildInfoItem(
-                          icon: LucideIcons.flag,
+                          icon: LucideIcons.calendar, // Changed to Calendar
                           label: 'Ajans Tarihi',
                           value: _formatDate(
                             context,
                             widget.job.internalDeadline,
                           ),
                           isEditable: true,
-                          isUrgent: true,
+                          isUrgent:
+                              true, // Should satisfy "Red Icon" requirement if isUrgent makes icon red
                         ),
                       ),
                     ],
@@ -352,11 +371,11 @@ class _JobDetailScreenState extends State<JobDetailScreen>
                       const SizedBox(width: 16),
                       Expanded(
                         child: _buildInfoItem(
-                          icon: LucideIcons.siren, // or AlertTriangle
+                          icon: LucideIcons.siren,
                           label: 'Aciliyet',
                           value: widget.job.status == 'Urgent'
                               ? 'Acil'
-                              : 'Normal', // Simple mapping
+                              : 'Acil Değil', // Changed to 'Acil Değil'
                           isEditable: true,
                           isUrgent: widget.job.status == 'Urgent',
                         ),
@@ -410,51 +429,87 @@ class _JobDetailScreenState extends State<JobDetailScreen>
               letterSpacing: 1.0,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           GridView.builder(
+            padding: EdgeInsets.zero, // Remove default top padding
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              childAspectRatio: 2.5,
+              childAspectRatio: 1.4, // Adjusted for 2 rows with checkbox
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
             ),
-            itemCount: widget.job.requirements.length,
+            itemCount: 6, // Fixed 6 items
             itemBuilder: (context, index) {
-              final req = widget.job.requirements[index];
+              final requirementsList = [
+                'Yazılım',
+                'Baskı',
+                '3D',
+                'Video',
+                'Mobil',
+                'Tasarım',
+              ];
+              final req = requirementsList[index];
+              final icon = _getRequirementIcon(req);
+              // Check if the current job has this requirement
+              final isChecked = widget.job.requirements.any(
+                (r) => r.toLowerCase().contains(req.toLowerCase()),
+              );
+
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppTheme.border),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Stack(
                   children: [
-                    Container(
-                      width: 14,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppTheme.textSecondary,
-                          width: 1.5,
+                    // Checkbox top-right
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: Transform.scale(
+                        scale: 0.8,
+                        child: Checkbox(
+                          value: isChecked,
+                          onChanged:
+                              (
+                                val,
+                              ) {}, // Read-only for now or interactive if needed
+                          activeColor: AppTheme.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          side: const BorderSide(
+                            color: AppTheme.textSecondary,
+                            width: 1.5,
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        req,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: AppTheme.textMain,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                    // Content
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(4, 20, 4, 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(icon, size: 24, color: AppTheme.textSecondary),
+                          const SizedBox(height: 8),
+                          Center(
+                            child: Text(
+                              req,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: AppTheme.textMain,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
