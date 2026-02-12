@@ -1,5 +1,7 @@
 {
     "@@locale": "tr",
+    "productionCalendar": "Üretim Takvimi",
+    "dayProgress": "Gün {current} / {total}",
     "dashboard": "İşler",
     "jobs": "İş Ekle",
     "timesheets": "Kullanıcılar",

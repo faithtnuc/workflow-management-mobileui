@@ -9,6 +9,14 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get productionCalendar => 'Production Calendar';
+
+  @override
+  String dayProgress(Object current, Object total) {
+    return 'Day $current / $total';
+  }
+
+  @override
   String get dashboard => 'Dashboard';
 
   @override

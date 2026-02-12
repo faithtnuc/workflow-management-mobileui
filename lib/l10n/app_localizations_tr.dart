@@ -9,6 +9,14 @@ class AppLocalizationsTr extends AppLocalizations {
   AppLocalizationsTr([String locale = 'tr']) : super(locale);
 
   @override
+  String get productionCalendar => 'Üretim Takvimi';
+
+  @override
+  String dayProgress(Object current, Object total) {
+    return 'Gün $current / $total';
+  }
+
+  @override
   String get dashboard => 'İşler';
 
   @override

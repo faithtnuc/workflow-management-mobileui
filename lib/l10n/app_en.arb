@@ -1,5 +1,7 @@
 {
     "@@locale": "en",
+    "productionCalendar": "Production Calendar",
+    "dayProgress": "Day {current} / {total}",
     "dashboard": "Dashboard",
     "jobs": "Jobs",
     "timesheets": "Timesheets",

@@ -98,6 +98,18 @@ abstract class AppLocalizations {
     Locale('tr'),
   ];
 
+  /// No description provided for @productionCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Production Calendar'**
+  String get productionCalendar;
+
+  /// No description provided for @dayProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {current} / {total}'**
+  String dayProgress(Object current, Object total);
+
   /// No description provided for @dashboard.
   ///
   /// In en, this message translates to:
