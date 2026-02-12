@@ -221,4 +221,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reqDesign => 'Design';
+
+  @override
+  String get navDashboard => 'Dashboard';
+
+  @override
+  String get navCalendar => 'Calendar';
+
+  @override
+  String get navMessages => 'Messages';
 }

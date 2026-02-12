@@ -221,4 +221,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reqDesign => 'Tasarım';
+
+  @override
+  String get navDashboard => 'Panel';
+
+  @override
+  String get navCalendar => 'Takvim';
+
+  @override
+  String get navMessages => 'Mesajlar';
 }

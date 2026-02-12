@@ -76,5 +76,8 @@
     "req3D": "3D",
     "reqVideo": "Video",
     "reqMobile": "Mobil",
-    "reqDesign": "Tasarım"
+    "reqDesign": "Tasarım",
+    "navDashboard": "Panel",
+    "navCalendar": "Takvim",
+    "navMessages": "Mesajlar"
 }

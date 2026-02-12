@@ -76,5 +76,8 @@
     "req3D": "3D",
     "reqVideo": "Video",
     "reqMobile": "Mobile",
-    "reqDesign": "Design"
+    "reqDesign": "Design",
+    "navDashboard": "Dashboard",
+    "navCalendar": "Calendar",
+    "navMessages": "Messages"
 }

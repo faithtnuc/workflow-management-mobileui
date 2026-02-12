@@ -20,7 +20,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: Text(AppLocalizations.of(context)!.navDashboard),
         backgroundColor: AppTheme.surface,
         foregroundColor: AppTheme.textMain,
         elevation: 0,

@@ -517,6 +517,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Design'**
   String get reqDesign;
+
+  /// No description provided for @navDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get navDashboard;
+
+  /// No description provided for @navCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get navCalendar;
+
+  /// No description provided for @navMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get navMessages;
 }
 
 class _AppLocalizationsDelegate

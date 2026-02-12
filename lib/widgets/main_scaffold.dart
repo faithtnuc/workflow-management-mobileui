@@ -41,18 +41,18 @@ class _MainScaffoldState extends State<MainScaffold> {
         onDestinationSelected: _onItemTapped,
         backgroundColor: AppTheme.surface,
         indicatorColor: AppTheme.primary.withOpacity(0.1),
-        destinations: const [
+        destinations: [
           NavigationDestination(
             icon: Icon(LucideIcons.layoutDashboard),
-            label: 'Dashboard',
+            label: AppLocalizations.of(context)!.navDashboard,
           ),
           NavigationDestination(
             icon: Icon(LucideIcons.calendar),
-            label: 'Calendar',
+            label: AppLocalizations.of(context)!.navCalendar,
           ),
           NavigationDestination(
             icon: Icon(LucideIcons.messageSquare),
-            label: 'Messages',
+            label: AppLocalizations.of(context)!.navMessages,
           ),
         ],
       ),
