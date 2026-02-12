@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.1.0
   intl: ^0.20.2
   lucide_icons: ^0.257.0
+  syncfusion_flutter_calendar: ^28.1.33
 
 dev_dependencies:
   flutter_test:

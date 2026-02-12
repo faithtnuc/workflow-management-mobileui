@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../data/mock_db.dart';
 import '../theme/app_theme.dart';
-import '../widgets/job_card_widget.dart';
 
-class CalendarScreen extends StatelessWidget {
+class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
   @override
+  State<CalendarScreen> createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
+  final CalendarController _controller = CalendarController();
+
+  @override
   Widget build(BuildContext context) {
-    // Group jobs by deadline
-    final jobs = MockDb.jobs;
-    jobs.sort((a, b) => a.deadline.compareTo(b.deadline));
-
-    // Group logic is simple for now, just list them with headers
-    // Actually, let's just show a list for the mockup with date headers
-
-    // We can use a map to group
-    Map<String, List<Job>> groupedJobs = {};
-    for (var job in jobs) {
-      if (!groupedJobs.containsKey(job.deadline)) {
-        groupedJobs[job.deadline] = [];
-      }
-      groupedJobs[job.deadline]!.add(job);
-    }
-
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
@@ -35,76 +25,174 @@ class CalendarScreen extends StatelessWidget {
         foregroundColor: AppTheme.textMain,
         elevation: 0,
         actions: [
-          IconButton(icon: const Icon(LucideIcons.calendar), onPressed: () {}),
+          IconButton(
+            icon: const Icon(LucideIcons.chevronLeft),
+            onPressed: () {
+              _controller.backward!();
+            },
+          ),
+          IconButton(
+            icon: const Icon(LucideIcons.calendar),
+            onPressed: () async {
+              final DateTime? picked = await showDatePicker(
+                context: context,
+                initialDate: _controller.displayDate ?? DateTime(2023, 11, 1),
+                firstDate: DateTime(2020),
+                lastDate: DateTime(2030),
+              );
+              if (picked != null) {
+                _controller.displayDate = picked;
+              }
+            },
+            tooltip: 'Pick Date',
+          ),
+          IconButton(
+            icon: const Icon(LucideIcons.chevronRight),
+            onPressed: () {
+              _controller.forward!();
+            },
+          ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: groupedJobs.length,
-        itemBuilder: (context, index) {
-          String dateKey = groupedJobs.keys.elementAt(index);
-          List<Job> dayJobs = groupedJobs[dateKey]!;
-          DateTime date = DateTime.tryParse(dateKey) ?? DateTime.now();
-          String dayLabel = DateFormat('EEEE, MMM d').format(date);
+      body: Container(
+        color: AppTheme.surface,
+        child: SfCalendar(
+          controller: _controller,
+          view: CalendarView.month,
+          // Start in Nov 2023 to show mock data
+          initialDisplayDate: DateTime(2023, 11, 1),
+          showNavigationArrow: true,
+          dataSource: JobDataSource(MockDb.jobs, MockDb.clients),
+          firstDayOfWeek: 1, // Monday
+          // Localization
 
-          // Check if today
-          final now = DateTime.now();
-          bool isToday =
-              date.year == now.year &&
-              date.month == now.month &&
-              date.day == now.day;
+          // Header styling
+          headerStyle: const CalendarHeaderStyle(
+            textStyle: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.textMain,
+            ),
+            backgroundColor: AppTheme.surface,
+            textAlign: TextAlign.center,
+          ),
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Row(
-                  children: [
-                    Text(
-                      dayLabel,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: isToday
-                            ? AppTheme.primary
-                            : AppTheme.textSecondary,
-                      ),
-                    ),
-                    if (isToday) ...[
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Text(
-                          'Today',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
+          // View Header (Day names)
+          viewHeaderStyle: const ViewHeaderStyle(
+            dayTextStyle: TextStyle(
+              color: AppTheme.textSecondary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          // Month View Settings
+          monthViewSettings: const MonthViewSettings(
+            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+            showAgenda: true,
+            agendaItemHeight: 70,
+            agendaStyle: AgendaStyle(
+              backgroundColor: Colors.white,
+              appointmentTextStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
-              ...dayJobs.map((job) {
-                final client = MockDb.clients.firstWhere(
-                  (c) => c.id == job.clientId,
-                );
-                return JobCardWidget(job: job, client: client);
-              }),
-            ],
-          );
-        },
+              dateTextStyle: TextStyle(
+                color: AppTheme.textMain,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+              dayTextStyle: TextStyle(
+                color: AppTheme.textSecondary,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            monthCellStyle: MonthCellStyle(
+              textStyle: TextStyle(color: AppTheme.textMain, fontSize: 13),
+              trailingDatesTextStyle: TextStyle(
+                color: AppTheme.textSecondary,
+                fontSize: 12,
+              ),
+              leadingDatesTextStyle: TextStyle(
+                color: AppTheme.textSecondary,
+                fontSize: 12,
+              ),
+              todayBackgroundColor: Color(0xFFEFF6FF), // Primary light
+              todayTextStyle: TextStyle(
+                color: AppTheme.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+
+          // Appointment Builder for custom look if needed,
+          // but specifically requested "Colored bars with text" which is default for appointmentDisplayMode
+        ),
       ),
     );
+  }
+}
+
+class JobDataSource extends CalendarDataSource {
+  final List<Client> clients;
+
+  JobDataSource(List<Job> source, this.clients) {
+    appointments = source;
+  }
+
+  @override
+  DateTime getStartTime(int index) {
+    final Job job = appointments![index] as Job;
+    return DateTime.tryParse(job.startDate) ?? DateTime(2023, 11, 1);
+  }
+
+  @override
+  DateTime getEndTime(int index) {
+    final Job job = appointments![index] as Job;
+    return DateTime.tryParse(job.deadline) ?? DateTime(2023, 11, 2);
+  }
+
+  @override
+  String getSubject(int index) {
+    final Job job = appointments![index] as Job;
+    final client = clients.firstWhere(
+      (c) => c.id == job.clientId,
+      orElse: () => Client(
+        id: 'unknown',
+        name: 'Client',
+        logo: '',
+        activeJobs: 0,
+        unreadMessages: 0,
+        totalMessages: 0,
+      ),
+    );
+    return '${client.name}: ${job.titleKey}';
+  }
+
+  @override
+  Color getColor(int index) {
+    final Job job = appointments![index] as Job;
+    return _getColorForStatus(job.status);
+  }
+
+  @override
+  bool isAllDay(int index) {
+    return true;
+  }
+
+  Color _getColorForStatus(String status) {
+    switch (status) {
+      case 'Urgent':
+        return const Color(0xFFEF4444); // Red
+      case 'Review':
+        return const Color(0xFF3B82F6); // Blue
+      case 'In Progress':
+        return const Color(0xFFF59E0B); // Orange/Amber
+      case 'Completed':
+        return const Color(0xFF10B981); // Green
+      default:
+        return AppTheme.primary;
+    }
   }
 }
