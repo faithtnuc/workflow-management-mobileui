@@ -79,5 +79,6 @@
     "reqDesign": "Design",
     "navDashboard": "Dashboard",
     "navCalendar": "Calendar",
-    "navMessages": "Messages"
+    "navMessages": "Messages",
+    "timeNow": "Now"
 }

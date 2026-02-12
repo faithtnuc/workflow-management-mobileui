@@ -230,4 +230,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get navMessages => 'Mesajlar';
+
+  @override
+  String get timeNow => 'Şimdi';
 }

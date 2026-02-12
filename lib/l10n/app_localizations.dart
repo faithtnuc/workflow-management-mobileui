@@ -535,6 +535,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Messages'**
   String get navMessages;
+
+  /// No description provided for @timeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get timeNow;
 }
 
 class _AppLocalizationsDelegate

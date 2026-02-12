@@ -230,4 +230,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navMessages => 'Messages';
+
+  @override
+  String get timeNow => 'Now';
 }

@@ -79,5 +79,6 @@
     "reqDesign": "Tasarım",
     "navDashboard": "Panel",
     "navCalendar": "Takvim",
-    "navMessages": "Mesajlar"
+    "navMessages": "Mesajlar",
+    "timeNow": "Şimdi"
 }

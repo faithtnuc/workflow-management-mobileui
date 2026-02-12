@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../data/mock_db.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import 'chat_screen.dart';
 
@@ -25,7 +26,7 @@ class MessagesListScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: const Text('Messages'),
+        title: Text(AppLocalizations.of(context)!.navMessages),
         backgroundColor: AppTheme.surface,
         foregroundColor: AppTheme.textMain,
         elevation: 0,
@@ -40,6 +41,7 @@ class MessagesListScreen extends StatelessWidget {
           final job = jobs[index];
           final client = MockDb.clients.firstWhere((c) => c.id == job.clientId);
 
+          final l10n = AppLocalizations.of(context)!;
           return ListTile(
             tileColor: AppTheme.surface,
             leading: Stack(
@@ -70,13 +72,7 @@ class MessagesListScreen extends StatelessWidget {
               ],
             ),
             title: Text(
-              job.titleKey
-                  .replaceAll('job', '')
-                  .replaceAllMapped(
-                    RegExp(r'([A-Z])'),
-                    (match) => ' ${match.group(0)}',
-                  )
-                  .trim(),
+              _getLocalizedTitle(context, job.titleKey),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
             subtitle: Text(
@@ -90,9 +86,12 @@ class MessagesListScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Text(
-                  'Now',
-                  style: TextStyle(fontSize: 10, color: AppTheme.textSecondary),
+                Text(
+                  l10n.timeNow,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppTheme.textSecondary,
+                  ),
                 ),
                 if (job.messages + job.internalMessages > 0)
                   Container(
@@ -128,5 +127,33 @@ class MessagesListScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String _getLocalizedTitle(BuildContext context, String key) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (key) {
+      case 'jobQ3Marketing':
+        return l10n.jobQ3Marketing;
+      case 'jobHomepageRedesign':
+        return l10n.jobHomepageRedesign;
+      case 'jobNutritionalPDF':
+        return l10n.jobNutritionalPDF;
+      case 'jobSocialMedia':
+        return l10n.jobSocialMedia;
+      case 'jobSafetyVideo':
+        return l10n.jobSafetyVideo;
+      case 'jobSuitInterface':
+        return l10n.jobSuitInterface;
+      case 'jobMobileRefresh':
+        return l10n.jobMobileRefresh;
+      default:
+        return key
+            .replaceAll('job', '')
+            .replaceAllMapped(
+              RegExp(r'([A-Z])'),
+              (match) => ' ${match.group(0)}',
+            )
+            .trim();
+    }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../data/mock_db.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -29,10 +30,14 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     }).toList();
 
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: Text(_activeTab == 'client' ? 'Client Chat' : 'Internal Team'),
+        title: Text(
+          _activeTab == 'client' ? l10n.clientChat : l10n.internalTeam,
+        ),
         centerTitle: true,
         backgroundColor: AppTheme.surface,
         foregroundColor: AppTheme.textMain,
@@ -49,10 +54,20 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                Expanded(child: _buildTab('Client', 'client', Colors.blue)),
+                Expanded(
+                  child: _buildTab(
+                    l10n.segmentClient,
+                    'client',
+                    Colors.indigo, // Changed to Indigo to match Job Detail
+                  ),
+                ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: _buildTab('Internal', 'internal', Colors.orange),
+                  child: _buildTab(
+                    l10n.segmentInternal,
+                    'internal',
+                    Colors.orange,
+                  ),
                 ),
               ],
             ),
@@ -93,8 +108,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: _activeTab == 'client'
-                          ? 'Message client...'
-                          : 'Internal note...',
+                          ? l10n.hintMessageClient
+                          : l10n.hintMessageInternal,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(24),
                         borderSide: BorderSide.none,
@@ -200,8 +215,8 @@ class _ChatScreenState extends State<ChatScreen> {
               decoration: BoxDecoration(
                 color: isMe
                     ? (_activeTab == 'internal'
-                          ? Colors.orange
-                          : AppTheme.primary)
+                          ? const Color(0xFFEA580C) // Orange 600
+                          : const Color(0xFF4F46E5)) // Indigo 600
                     : AppTheme.surface,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(16),
@@ -233,7 +248,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   Text(
-                    log.text,
+                    (Localizations.localeOf(context).languageCode == 'tr' &&
+                            log.textTR.isNotEmpty)
+                        ? log.textTR
+                        : log.text,
                     style: TextStyle(
                       color: isMe ? Colors.white : AppTheme.textMain,
                       fontSize: 14,
